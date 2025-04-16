@@ -1,0 +1,62 @@
+services:
+  m1:
+    build: 
+      context: .
+    hostname: master1
+    container_name: m1
+    ports:
+      - "9180:8088"
+      - "9885:9870"
+    networks:
+      - hd_net
+    healthcheck:
+      test: ["CMD", "hdfs", "haadmin", "-checkHealth", "nn1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - ./hadoop_data:/usr/local/shared_data
+  m2:
+    build: 
+      context: .
+    hostname: master2
+    container_name: m2 
+    ports:
+      - "9280:8088"
+      - "9886:9870"
+    networks:
+      - hd_net
+    volumes:
+      - ./hadoop_data:/usr/local/shared_data
+  m3:
+    build: 
+      context: .
+    hostname: master3
+    container_name: m3 
+    ports:
+      - "9380:8088"
+      - "9887:9870"
+    networks:
+      - hd_net
+    volumes:
+      - ./hadoop_data:/usr/local/shared_data
+  w: 
+    build: 
+      context: .
+    hostname: worker
+    depends_on:
+      - m1
+    networks:
+        - hd_net
+    volumes:
+      - ./hadoop_data:/usr/local/shared_data
+
+
+volumes:
+  hadoop_data:
+    
+
+networks:
+  hd_net:
+
+
