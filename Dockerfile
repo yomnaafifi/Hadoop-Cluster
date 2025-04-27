@@ -29,11 +29,7 @@ RUN mkdir -p /usr/local/hadoop/hdfs/namenode && \
     chown -R hduser:hadoop /usr/local/hadoop/hdfs/namenode && \
     chown -R hduser:hadoop /usr/local/hadoop/hdfs/datanode && \
     chown -R hduser:hadoop /usr/local/hadoop/hdfs/journals && \
-    chown -R hduser:hadoop /usr/local/hadoop/tmp && \
-    chmod -R 777 /usr/local/hadoop/hdfs/namenode && \
-    chmod -R 777 /usr/local/hadoop/hdfs/datanode && \
-    chmod -R 777 /usr/local/hadoop/hdfs/journals && \
-    chmod -R 777 /usr/local/hadoop/tmp 
+    chown -R hduser:hadoop /usr/local/hadoop/tmp
 
 ADD https://dlcdn.apache.org/zookeeper/zookeeper-3.8.4/apache-zookeeper-3.8.4-bin.tar.gz /usr/local
 RUN tar -xzf /usr/local/apache-zookeeper-3.8.4-bin.tar.gz -C /usr/local && \
@@ -50,10 +46,9 @@ RUN mkdir -p /usr/local/shared_data
 RUN chown -R hduser:hadoop /usr/local/shared_data
 RUN chmod -R 777 /usr/local/shared_data
 
-ENV HADOOP_HOME /usr/local/hadoop
+ENV HADOOP_HOME=/usr/local/hadoop
 ENV PATH=$PATH:/usr/local/hadoop/bin
 ENV PATH=$PATH:/usr/local/hadoop/sbin
-
 ENV PATH=$PATH:/usr/local/zookeeper/bin 
 
 #RUN echo "hduser:123" | chpasswd
