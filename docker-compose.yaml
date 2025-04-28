@@ -1,5 +1,5 @@
 services:
-  m1:
+  master1:
     build: 
       context: .
     hostname: master1
@@ -18,11 +18,11 @@ services:
       - nn1:/usr/local/hadoop/hdfs/namenode
       - jn1:/usr/local/hadoop/hdfs/journals
       - zk1:/usr/local/zookeeper/data
-  m2:
+  master2:
     build: 
       context: .
     hostname: master2
-    container_name: m2 
+    container_name: master2
     ports:
       - "9280:8088"
       - "9886:9870"
@@ -32,11 +32,11 @@ services:
       - nn2:/usr/local/hadoop/hdfs/namenode
       - jn2:/usr/local/hadoop/hdfs/journals
       - zk2:/usr/local/zookeeper/data
-  m3:
+  master3:
     build: 
       context: .
     hostname: master3
-    container_name: m3 
+    container_name: master3 
     ports:
       - "9380:8088"
       - "9887:9870"
@@ -46,13 +46,13 @@ services:
       - nn3:/usr/local/hadoop/hdfs/namenode
       - jn3:/usr/local/hadoop/hdfs/journals
       - zk3:/usr/local/zookeeper/data
-  w: 
+  worker: 
     build: 
       context: .
     hostname: worker
     container_name: worker
     depends_on:
-      m1: 
+      master1: 
         condition: service_healthy
     networks:
         - hd_net
