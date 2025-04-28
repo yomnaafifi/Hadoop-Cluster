@@ -15,7 +15,9 @@ services:
       timeout: 10s
       retries: 5
     volumes:
-      - ./hadoop_data:/usr/local/shared_data
+      - nn1:/usr/local/hadoop/hdfs/namenode
+      - jn1:/usr/local/hadoop/hdfs/journals
+      - zk1:/usr/local/zookeeper/data
   m2:
     build: 
       context: .
@@ -27,7 +29,9 @@ services:
     networks:
       - hd_net
     volumes:
-      - ./hadoop_data:/usr/local/shared_data
+      - nn2:/usr/local/hadoop/hdfs/namenode
+      - jn2:/usr/local/hadoop/hdfs/journals
+      - zk2:/usr/local/zookeeper/data
   m3:
     build: 
       context: .
@@ -39,23 +43,35 @@ services:
     networks:
       - hd_net
     volumes:
-      - ./hadoop_data:/usr/local/shared_data
+      - nn3:/usr/local/hadoop/hdfs/namenode
+      - jn3:/usr/local/hadoop/hdfs/journals
+      - zk3:/usr/local/zookeeper/data
   w: 
     build: 
       context: .
     hostname: worker
+    container_name: worker
     depends_on:
-      - m1
+      m1: 
+        condition: service_healthy
     networks:
         - hd_net
     volumes:
-      - ./hadoop_data:/usr/local/shared_data
+      - dn1:/usr/local/hadoop/hdfs/datanode
 
 
 volumes:
-  hadoop_data:
+  nn1:
+  nn2:
+  nn3:
+  jn1:
+  jn2:
+  jn3:
+  dn1:
+  zk1:
+  zk2:
+  zk3:
     
-
 networks:
   hd_net:
 

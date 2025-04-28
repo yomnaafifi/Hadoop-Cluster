@@ -28,6 +28,8 @@ if [[ "${HOSTNAME}" == *"master"* ]]; then
         zkServer.sh start
         start-all.sh
     fi
+else
+    start-all.sh
 fi
 
 tail -f /dev/null
