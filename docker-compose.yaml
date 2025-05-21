@@ -15,9 +15,9 @@ services:
       timeout: 10s
       retries: 5
     volumes:
-      - nn1:/usr/local/hadoop/hdfs/namenode
-      - jn1:/usr/local/hadoop/hdfs/journals
-      - zk1:/usr/local/zookeeper/data
+      - namenode1:/usr/local/hadoop/hdfs/namenode
+      - journalnode1:/usr/local/hadoop/hdfs/journals
+      - zookeeper1:/usr/local/zookeeper/data
   master2:
     build: 
       context: .
@@ -29,9 +29,9 @@ services:
     networks:
       - hd_net
     volumes:
-      - nn2:/usr/local/hadoop/hdfs/namenode
-      - jn2:/usr/local/hadoop/hdfs/journals
-      - zk2:/usr/local/zookeeper/data
+      - namenode2:/usr/local/hadoop/hdfs/namenode
+      - journalnode2:/usr/local/hadoop/hdfs/journals
+      - zookeeper2:/usr/local/zookeeper/data
   master3:
     build: 
       context: .
@@ -43,9 +43,9 @@ services:
     networks:
       - hd_net
     volumes:
-      - nn3:/usr/local/hadoop/hdfs/namenode
-      - jn3:/usr/local/hadoop/hdfs/journals
-      - zk3:/usr/local/zookeeper/data
+      - namenode3:/usr/local/hadoop/hdfs/namenode
+      - journalnode3:/usr/local/hadoop/hdfs/journals
+      - zookeeper3:/usr/local/zookeeper/data
   worker: 
     build: 
       context: .
@@ -55,22 +55,22 @@ services:
       master1: 
         condition: service_healthy
     networks:
-        - hd_net
+      - hd_net
     volumes:
-      - dn1:/usr/local/hadoop/hdfs/datanode
+      - datanode1:/usr/local/hadoop/hdfs/datanode
 
 
 volumes:
-  nn1:
-  nn2:
-  nn3:
-  jn1:
-  jn2:
-  jn3:
-  dn1:
-  zk1:
-  zk2:
-  zk3:
+  namenode1:
+  namenode2:
+  namenode3:
+  journalnode1:
+  journalnode2:
+  journalnode3:
+  datanode1:
+  zookeeper1:
+  zookeeper2:
+  zookeeper3:
     
 networks:
   hd_net:
